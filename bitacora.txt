@@ -1,0 +1,5 @@
+## 18 mayo 2025
+
+Instalé cabal y ghc, repasé un poco de haskell y escribí la sintáxis abstracta de un lenguaje imperativo simple y definí también la lógica para estados (finitos, no vistos como funciones totales.)
+
+
