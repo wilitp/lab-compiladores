@@ -1,6 +1,7 @@
 import AbstractSyntax (BoolExp (..), Comm (..), IntExp (..))
 import Control.Applicative (Applicative (liftA2))
 import qualified State as St
+import Text.Read (readMaybe)
 
 -- Integers
 intexp :: IntExp -> St.State -> Int
@@ -26,14 +27,22 @@ boolexp (Lt e1 e2) = liftA2 (<) (intexp e1) (intexp e2)
 
 -- Commands
 
-comm :: Comm -> St.State -> St.State
-comm Skip state = state
-comm (Assign var e) state = St.updateState var (intexp e state) state
-comm (Seq c1 c2) state = comm c2 . comm c1 $ state
+comm :: Comm -> St.State -> IO St.State
+comm Skip state = return state
+comm (Assign var e) state = return $ St.updateState var (intexp e state) state
+comm (Seq c1 c2) state = comm c1 state >>= comm c2
 comm (IfElse b c1 c2) state = comm c state
   where
     c = if boolexp b state then c1 else c2
 comm (While b c) state =
   if boolexp b state
-    then comm (While b c) (comm c state)
-    else state
+    then comm c state >>= comm (While b c)
+    else return state
+comm (Output var) state = do
+  putStr $ show (St.evalState state var)
+  return state
+comm (Input var) state = do
+  inRaw <- getLine
+  case (readMaybe inRaw :: Maybe Int) of
+    Just inVal -> return $ St.updateState var inVal state
+    Nothing -> error "Bad input, only integers expected."

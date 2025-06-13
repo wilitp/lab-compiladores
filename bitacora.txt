@@ -2,4 +2,9 @@
 
 Instalé cabal y ghc, repasé un poco de haskell y escribí la sintáxis abstracta de un lenguaje imperativo simple y definí también la lógica para estados (finitos, no vistos como funciones totales.)
 
+## 12 junio
+
+Envolví el tipo de retorno de las funciones semánticas en IO, así aparte de actualizar el estado, ahora también pueden haber estados de input y output.
+
+Me gustaría agregar un parser pero siendo realistas con el tiempo probablemente termine hardcodeando un par de ejemplos y listo.
 

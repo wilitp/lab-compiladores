@@ -34,3 +34,5 @@ data Comm
   | Seq Comm Comm
   | IfElse BoolExp Comm Comm
   | While BoolExp Comm
+  | Input Identifier
+  | Output Identifier
