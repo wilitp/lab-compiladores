@@ -1,14 +1,15 @@
 module Main where
 
-import AbstractSyntax ()
-import qualified Data.Map as Map
-import Data.Maybe
+import AbstractSyntax (BoolExp (Gt), Comm (Assign, Input, Output, Seq, While), IntExp (Const, Neg, Sum, Var))
+import Semantics
 
-test :: String
-test =
-  Data.Maybe.fromMaybe
-    "Nada!"
-    (Map.lookup "hola" $ Map.insert "hola" "chau" Map.empty)
+-- programa de prueba. A partir de un numero entero en forma de input en la variable x, los numeros desde x a 0
+testProgram :: Comm
+testProgram =
+  Input "x"
+    `Seq` While
+      (Gt (Var "x") (Const 0))
+      (Output "x" `Seq` Assign "x" (Var "x" `Sum` Neg (Const 1)))
 
 main :: IO ()
-main = putStrLn test
+main = interpret testProgram
