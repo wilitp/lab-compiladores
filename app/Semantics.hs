@@ -1,5 +1,8 @@
+module Semantics where
+
 import AbstractSyntax (BoolExp (..), Comm (..), IntExp (..))
 import Control.Applicative (Applicative (liftA2))
+import State (emptyState)
 import qualified State as St
 import Text.Read (readMaybe)
 
@@ -39,10 +42,17 @@ comm (While b c) state =
     then comm c state >>= comm (While b c)
     else return state
 comm (Output var) state = do
-  putStr $ show (St.evalState state var)
+  print (St.evalState state var)
   return state
 comm (Input var) state = do
   inRaw <- getLine
   case (readMaybe inRaw :: Maybe Int) of
     Just inVal -> return $ St.updateState var inVal state
     Nothing -> error "Bad input, only integers expected."
+
+-- El interprete ejecuta el comando iniciando con el estado vacio
+interpret :: Comm -> IO ()
+interpret command = do
+  _endState <- comm command emptyState
+
+  return ()
