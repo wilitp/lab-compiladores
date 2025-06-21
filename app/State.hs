@@ -11,7 +11,7 @@ import qualified AbstractSyntax as Syntax
 import qualified Data.Map as Map
 import Data.Maybe (fromMaybe)
 
-type State = Map.Map String Int
+type State = Map.Map Syntax.Identifier Int
 
 updateState :: Syntax.Identifier -> Int -> State -> State
 updateState = Map.insert
