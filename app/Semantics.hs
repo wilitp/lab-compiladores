@@ -11,10 +11,10 @@ intexp :: IntExp -> St.State -> Int
 intexp (Var var) = flip St.evalState var
 intexp (Const n) = const n
 intexp (Neg e) = (0 -) . intexp e
-intexp (Sum e1 e2) = liftA2 (+) (intexp e2) (intexp e1)
-intexp (Prod e1 e2) = liftA2 (*) (intexp e2) (intexp e1)
-intexp (Div e1 e2) = liftA2 div (intexp e2) (intexp e1)
-intexp (Rem e1 e2) = liftA2 mod (intexp e2) (intexp e1)
+intexp (Sum e1 e2) = liftA2 (+) (intexp e1) (intexp e2)
+intexp (Prod e1 e2) = liftA2 (*) (intexp e1) (intexp e2)
+intexp (Div e1 e2) = liftA2 div (intexp e1) (intexp e2)
+intexp (Rem e1 e2) = liftA2 mod (intexp e1) (intexp e2)
 
 -- Booleans
 boolexp :: BoolExp -> St.State -> Bool
