@@ -20,6 +20,18 @@ evalState state var = fromMaybe (error $ "Variable " ++ var ++ " not defined") $
 
 Al no haber manejo de errores, una vez que la evaluación de una expresión resulta en un error la ejecución termina.
 
+### Dominio semántico
+
+Las funciones que implementan la interpretación del lenguaje tienen los siguientes tipos:
+
+```haskell
+comm :: Comm -> State -> IO State
+boolexp :: BoolExp -> State -> Bool
+intexp :: IntExp -> State -> Int
+```
+
+donde `State` es alias para `Map Identifier Int`. Además, `Identifier` es un alias para `String`.
+
 ## Cómo correr un programa de ejemplo:
 
 Es necesario tener instalado Cabal para correr el programa en Main.hs, que ejecuta el intérprete sobre programa de prueba.
